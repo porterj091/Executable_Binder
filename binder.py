@@ -16,12 +16,12 @@ def createFooter(programLengths):
 
 def writeBytes(bytes_to_write, numFiles):
 	with open('codearray.h', 'w') as fp:
-		fp.write("new unsigned char[" + numFiles + "]{")
+		fp.write("new unsigned char[" + str(numFiles) + "]{")
 		for i in range(len(bytes_to_write)):
 			if i != len(bytes_to_write) - 2:
-				fb.write(byte_to_write[i] + ", ")
+				fp.write(bytes_to_write[i] + ", ")
 			else:
-				fb.write(byte_to_write[i] + "},\n")
+				fp.write(bytes_to_write[i] + "},\n")
 				
 # Will return the array of bytes
 def getBytes(fileName):
@@ -37,7 +37,7 @@ def main(args):
 	for i in args:
 		bytes_of_file = getBytes(i)
 		programLengths.append(len(bytes_of_file))
-		writeBytes(byte_of_file, len(args))
+		writeBytes(bytes_of_file, len(args))
 	createFooter(programLengths)
 
 
