@@ -19,6 +19,12 @@ int main()
 	for (int progCount = 0; progCount < NUM_BINARIES; ++progCount)
 	{
 		char *fileName = tmpnam(NULL);
+		FILE *fp = fopen(fileName, "wb");
+		if(fwrite(codeArray[progCount], sizeof(char), programLengths[progCount], fp) < 0)
+		{
+			perror("fwrite");
+			exit(-1);
+		}
 		chmod(fileName, 0777);
 
 	}

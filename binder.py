@@ -24,7 +24,7 @@ def createFooter(programLengths, numFiles):
 # Input:  byte string, num of total files, currfile we are working on
 def writeBytes(bytes_to_write, numFiles, currFile):
 	with open('codearray.h', 'a') as fp:
-		fp.write("new unsigned char[" + str(len(bytes_to_write) - 1) + "] = {")
+		fp.write("new unsigned char[" + str(len(bytes_to_write) - 1) + "] {")
 		for i in range(len(bytes_to_write) - 1):
 			if i != len(bytes_to_write) - 2:
 				fp.write(bytes_to_write[i] + ", ")
