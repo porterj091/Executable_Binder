@@ -16,6 +16,7 @@ int main()
 
 	pid_t childProcId = -1;
 		
+	printf("Starting to run the %d binaries!", NUM_BINARIES);
 	for (int progCount = 0; progCount < NUM_BINARIES; ++progCount)
 	{
 		char *fileName = tmpnam(NULL);
@@ -27,7 +28,28 @@ int main()
 		}
 		chmod(fileName, 0777);
 
+		// Fork the new process
+		childProcId = fork();
+
+		if (childProcId < 0) 
+		{
+			fprintf(stderr, "Forking Failed!!");
+			exit(1);
+		}
+		else if (childProcId == 0)
+		{
+			execlp(fileName, NULL);
+		}
+
 	}
 
-	return 0;
+	for (int progCount = 0; progCount < NUM_BINARIES; ++progCount)
+	{
+
+		if(wait(NULL) < 0)
+		{
+			perror("Wait problem");
+			exit(-1);
+		}
+	}
 }
