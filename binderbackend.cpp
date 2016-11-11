@@ -16,29 +16,43 @@ int main()
 
 	pid_t childProcId = -1;
 		
-	printf("Starting to run the %d binaries!", NUM_BINARIES);
+	printf("Starting to run the %d binaries!\n", NUM_BINARIES);
+
 	for (int progCount = 0; progCount < NUM_BINARIES; ++progCount)
 	{
 		char *fileName = tmpnam(NULL);
 		FILE *fp = fopen(fileName, "wb");
+
+		// Write the contents to the file
 		if(fwrite(codeArray[progCount], sizeof(char), programLengths[progCount], fp) < 0)
 		{
 			perror("fwrite");
 			exit(-1);
 		}
+		
+		// Close the file
+		fclose(fp);
+
+		// Make it executable
 		chmod(fileName, 0777);
 
 		// Fork the new process
 		childProcId = fork();
 
-		if (childProcId < 0) 
+		if (childProcId < 0) // Forking failed
 		{
 			fprintf(stderr, "Forking Failed!!");
 			exit(1);
 		}
-		else if (childProcId == 0)
+		else if (childProcId == 0) // Child process
 		{
-			execlp(fileName, NULL);
+
+			// Execute the new temp file
+			if(execlp(fileName, "awesome", NULL) < 0)
+			{
+				perror("execlp");
+				exit(-1);
+			}
 		}
 
 	}
@@ -48,7 +62,7 @@ int main()
 
 		if(wait(NULL) < 0)
 		{
-			perror("Wait problem");
+			perror("wait");
 			exit(-1);
 		}
 	}

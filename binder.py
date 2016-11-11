@@ -62,6 +62,7 @@ def main(args):
 		currFile += 1
 	createFooter(programLengths, len(args))
 	compileCpp()
+	print("Finished Compiling the bound executable!!")
 
 
 if __name__ == '__main__':
