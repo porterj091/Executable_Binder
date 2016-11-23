@@ -51,18 +51,20 @@ def compileCpp():
 
 # Main execution
 def main(args):
-	print("Binding the %d files together!!!!" %(len(args)))
+	print("######### Binding the %d files together!!!! ########" %(len(args)))
 	createHeader()
 	programLengths = []
 	currFile = 1
 	for i in args:
 		bytes_of_file = getBytes(i)
+		print("========= Adding %s to binder with size: %d bytes ======" %(i, len(bytes_of_file)))
 		programLengths.append(len(bytes_of_file))
 		writeBytes(bytes_of_file, len(args), currFile)
 		currFile += 1
 	createFooter(programLengths, len(args))
+	print("============= Starting the compile the executable!! ===============\n")
 	compileCpp()
-	print("Finished Compiling the bound executable!!")
+	print("\n============= Finished Compiling the bound executable!! ==============\n")
 
 
 if __name__ == '__main__':
